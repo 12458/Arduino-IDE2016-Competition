@@ -3,10 +3,10 @@
 #include <Time.h>
 #include <Wire.h>
 #define ARMED 3
-#define MODE 4
+#define MODE 7
 int Buffer = 0;
 int MODENOW = 0;
-LiquidCrystal lcd(8, 12, 9, 10, 11, 12);
+LiquidCrystal lcd(8, 13, 9, 10, 11, 12);
 void setup()
 {
   pinMode(ARMED, OUTPUT);
@@ -14,7 +14,7 @@ void setup()
   pinMode(MODE, INPUT_PULLUP);
   lcd.begin(16, 2);
   lcd.clear();
-  lcd.print('Welcome');
+  lcd.print("Welcome");
   delay(5000);
   lcd.clear();
   MODENOW = digitalRead(MODE);
@@ -25,23 +25,40 @@ void loop()
   if (MODENOW == HIGH)
   {
     Buffer = Serial.read();
-    if (Buffer == '1')
-    {
+    switch (Buffer){
+      case '1':
       lcd.clear();
-      lcd.print('ARMED');
-    }
-    if (Buffer == '2')
-    {
+      lcd.print("ARMED");
+      digitalWrite(ARMED,HIGH);
+      break;
+      case '2':
       lcd.clear();
-      lcd.print('Disarmed');
-    }
-    if (Buffer == '3') {
+      lcd.print("Disarmed");
+      digitalWrite(ARMED,LOW);
+      break;
+      case '3':
       lcd.clear();
-      lcd.print('Alarm Activated');
+      lcd.print("Alarm Activated!");
+      break;
+      case'4':
+      lcd.clear();
+      break;
+      case '5':
+      lcd.clear();
+      lcd.print("Relay 1 ON");
+      break;
+      case '6':
+      lcd.clear();
+      lcd.print("Relay 1 OFF");
+      break;
     }
   }
   if (MODENOW == LOW) {
     lcd.clear();
     lcd.print(RTC.get());
+    lcd.print(" Second");
+    lcd.setCursor(0,1);
+    lcd.print("since 1/1/1970");
+    delay(1000);
   }
 }

@@ -3,7 +3,7 @@
 #define relay3 10
 #define LDR A0
 #define Buzzer 11
-#define Laser 12
+#define Laser 2
 #define RX A2
 #define TX A3
 #define LDRtrigger 100
@@ -28,48 +28,53 @@ void loop()
 {
   Buffer = Serial.read();
   switch (Buffer) {
-    case 1:
+    case '1':
       digitalWrite(relay1, HIGH);
-      Serial.println("relay1=on");
+      //Serial.println("relay1=on");
+      Serial.print("5");
       break;
-    case 2:
-      Serial.println('Armed');
+    case '2':
+      //Serial.println("Armed");
       arm = 1;
       digitalWrite(armedled, HIGH);
       digitalWrite(Laser, HIGH);
+      Serial.print("1");
       break;
-    case 3:
-      Serial.println('Unarmed');
+    case '3':
+      //Serial.println("Unarmed");
       arm = 0;
       digitalWrite(armedled, LOW);
       digitalWrite(Laser, LOW);
+      Serial.print("2");
       break;
-    case 4:
+    case '4':
       digitalWrite(relay1, LOW);
-      Serial.println("relay1=off");
+      //Serial.println("relay1=off");
+      Serial.print("6");
       break;
-    case 5:
+    case '5':
       digitalWrite(relay2, HIGH);
-      Serial.println("relay2=on");
+      //Serial.println("relay2=on");
       break;
-    case 6:
+    case '6':
       digitalWrite(relay2, LOW);
-      Serial.println("relay2=off");
+      //Serial.println("relay2=off");
       break;
-    case 7:
+    case '7':
       digitalWrite(relay3, HIGH);
-      Serial.println("relay3=on");
+      //Serial.println("relay3=on");
       break;
-    case 8:
+    case '8':
       digitalWrite(relay3, LOW);
-      Serial.println("relay3=off");
+      //Serial.println("relay3=off");
       break;
   }
   LDRvalue = analogRead(LDR);
   if (LDRvalue == LDRtrigger && arm == 1)
   {
     digitalWrite(Buzzer, HIGH);
-    Serial.println('ALARM!!!');
+    //Serial.println("ALARM!!!");
+    Serial.print("3");
     delay(delaytime);
     digitalWrite(Buzzer, LOW);
   }
